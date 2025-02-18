@@ -4,12 +4,14 @@
 
 ## 在线演示
 
-[https://music-keys.vercel.app/](https://music-keys.vercel.app/)
+[https://music-keys.vercel.app](https://music-keys.vercel.app/)
 
 ## 功能特点
 
 - 使用键盘字母按键即可演奏不同乐器的声音
 - 不同的音色和音高展现出不同的动态粒子效果
+- 响应式设计，适配各种PC端屏幕尺寸
+- 移动端提供横屏模式、触摸交互支持
 
 ## 技术栈
 
@@ -17,12 +19,11 @@
 - TypeScript
 - TailwindCSS
 - VueUse
-- Howler.js (通过 @vueuse/sound)
+- Howler.js (@vueuse/sound)
 
 ## 使用说明
 
 按下键盘上的任意字母键（A-Z）即可演奏出不同乐器的声音。
-
 
 ## 快速开始
 

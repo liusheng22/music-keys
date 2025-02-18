@@ -1,17 +1,5 @@
 import { useRafFn } from '@vueuse/core'
 
-interface ParticleProps {
-  x: number
-  y: number
-  color: string
-  size: number
-  speedX: number
-  speedY: number
-  gravity: number
-  life: number
-  decay: number
-}
-
 class Particle implements ParticleProps {
   x: number
   y: number
@@ -50,24 +38,19 @@ class Particle implements ParticleProps {
   }
 }
 
-interface ParticlesReturn {
-  initCanvas: () => void
-  createParticles: (x: number, y: number, volume: number) => void
-  startAnimation: () => void
-  stopAnimation: () => void
-}
-
-export const useParticles = (canvasRef: Ref<HTMLCanvasElement | null>): ParticlesReturn => {
+export function useParticles(canvasRef: Ref<HTMLCanvasElement | null>): ParticlesReturn {
   const particles: Particle[] = []
 
   const initCanvas = (): void => {
-    if (!canvasRef.value) return
+    if (!canvasRef.value)
+      return
     const canvas = canvasRef.value
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
 
     window.addEventListener('resize', () => {
-      if (!canvas) return
+      if (!canvas)
+        return
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
     })
@@ -77,11 +60,11 @@ export const useParticles = (canvasRef: Ref<HTMLCanvasElement | null>): Particle
     const colors = [
       '147, 51, 234',
       '236, 72, 153',
-      '59, 130, 246',
+      '59, 130, 246'
     ]
-    
+
     const particleCount = Math.floor(15 + volume * 10)
-    
+
     for (let i = 0; i < particleCount; i++) {
       const color = colors[Math.floor(Math.random() * colors.length)]
       particles.push(new Particle(x, y, color, volume))
@@ -89,12 +72,14 @@ export const useParticles = (canvasRef: Ref<HTMLCanvasElement | null>): Particle
   }
 
   const { pause, resume } = useRafFn(() => {
-    if (!canvasRef.value) return
+    if (!canvasRef.value)
+      return
     const ctx = canvasRef.value.getContext('2d')
-    if (!ctx) return
+    if (!ctx)
+      return
 
     ctx.clearRect(0, 0, canvasRef.value.width, canvasRef.value.height)
-    
+
     for (let i = particles.length - 1; i >= 0; i--) {
       particles[i].update()
       particles[i].draw(ctx)
@@ -108,6 +93,6 @@ export const useParticles = (canvasRef: Ref<HTMLCanvasElement | null>): Particle
     initCanvas,
     createParticles,
     startAnimation: resume,
-    stopAnimation: pause,
+    stopAnimation: pause
   }
 }

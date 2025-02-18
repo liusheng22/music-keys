@@ -1,20 +1,6 @@
 import { useSound } from '@vueuse/sound'
 
-interface SoundInstance {
-  play: (options?: { volume?: number; playbackRate?: number }) => void
-  stop: () => void
-  isPlaying: Ref<boolean>
-}
-
-interface AudioReturn {
-  sounds: Record<string, SoundInstance>
-  playbackRate: Ref<number>
-  volume: Ref<number>
-  getRandomVolume: () => number
-  getRandomRate: () => number
-}
-
-export const useAudio = (): AudioReturn => {
+export function useAudio(): AudioReturn {
   const playbackRate = ref<number>(1)
   const volume = ref<number>(1)
 
@@ -24,7 +10,7 @@ export const useAudio = (): AudioReturn => {
       useSound(`/sounds/${key}.mp3`, {
         interrupt: true,
         playbackRate,
-        volume,
+        volume
       })
     ])
   )

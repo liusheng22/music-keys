@@ -10,6 +10,8 @@ Transform your keyboard into a musical instrument.
 
 - Play different instrument sounds using keyboard letters (A-Z)
 - Dynamic particle effects that respond to different timbres and pitches
+- Responsive design for various desktop screen sizes
+- Mobile support with landscape mode and touch interactions
 
 ## Tech Stack
 

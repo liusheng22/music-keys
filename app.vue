@@ -1,55 +1,37 @@
-<template>
-  <div class="min-h-screen bg-gray-900 flex flex-col items-center pt-20 pb-12 px-8">
-    <!-- title & subtitle -->
-    <div class="text-center mb-24">
-      <h1 class="text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-4">
-        Musical Keyboard
-      </h1>
-      <p class="text-gray-400 text-xl font-light tracking-wider">
-        Play music with your fingertips
-      </p>
-    </div>
-    
-    <!-- keyboard layout -->
-    <KeyboardLayout :active-key="keyboard.activeKey" @key-press="handleKeyPress" />
+<script setup lang="ts">
+const visualizer = ref<HTMLCanvasElement | null>(null)
+const { particles } = useAnimation(visualizer)
+const { isPortrait, containerClasses } = useLayout()
+const keyboard = useKeyboard(particles)
+const activeKey = toRef(keyboard, 'activeKey')
+const { handleKeyPress, clearActiveKey } = keyboard
+</script>
 
-    <!-- visualizer canvas -->
-    <canvas
-      ref="visualizer"
-      class="fixed inset-0 pointer-events-none"
-    />
+<template>
+  <div :class="containerClasses">
+    <RotateDevice v-if="isPortrait" />
+
+    <template v-else>
+      <AppHeader />
+
+      <KeyboardLayout
+        :active-key="activeKey"
+        @key-press="handleKeyPress"
+        @key-up="clearActiveKey"
+      />
+    </template>
+
+    <canvas ref="visualizer" class="fixed inset-0 pointer-events-none" />
   </div>
 </template>
 
-<script setup lang="ts">
-const visualizer = ref<HTMLCanvasElement | null>(null)
-const audio = useAudio()
-const particles = useParticles(visualizer)
-const keyboard = useKeyboard()
-
-// handle key press event
-const handleKeyPress = (key: string) => {
-  audio.getRandomVolume()
-  audio.getRandomRate()
-  audio.sounds[key].play()
-
-  const keyElement = document.querySelector(`[data-key="${key}"]`)
-  if (keyElement) {
-    const rect = keyElement.getBoundingClientRect()
-    particles.createParticles(
-      rect.left + rect.width / 2,
-      rect.top + rect.height / 2,
-      audio.volume.value
-    )
-  }
+<style scoped>
+.app-container {
+  @apply pt-1 pb-2;
+  @apply sm:pt-2 sm:pb-4;
+  @apply md:pt-4 md:pb-6;
+  @apply lg:pt-6 lg:pb-8;
+  @apply xl:pt-8 xl:pb-10;
+  @apply 2xl:pt-10 2xl:pb-12;
 }
-
-onMounted(() => {
-  particles.initCanvas()
-  particles.startAnimation()
-})
-
-onUnmounted(() => {
-  particles.stopAnimation()
-})
-</script>
+</style>
