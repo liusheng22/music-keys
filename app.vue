@@ -1,4 +1,5 @@
 <script setup lang="ts">
+useAppMeta()
 const visualizer = ref<HTMLCanvasElement | null>(null)
 const { particles } = useAnimation(visualizer)
 const { isPortrait, containerClasses } = useLayout()
