@@ -15,7 +15,8 @@ export function useKeyboard(particles: ParticlesReturn): KeyboardReturn {
   }
 
   const preventDefaultKeys = (e: KeyboardEvent): void => {
-    const keysToPrevent: string[] = [
+    const keysToPrevent = [
+      // function keys
       'F1',
       'F2',
       'F3',
@@ -28,6 +29,7 @@ export function useKeyboard(particles: ParticlesReturn): KeyboardReturn {
       'F10',
       'F11',
       'F12',
+      // special keys
       'Tab',
       'CapsLock',
       'Shift',
@@ -44,14 +46,17 @@ export function useKeyboard(particles: ParticlesReturn): KeyboardReturn {
       'End',
       'PageUp',
       'PageDown',
+      // direction keys
       'ArrowUp',
       'ArrowDown',
       'ArrowLeft',
       'ArrowRight',
+      // other
       'Escape',
       'NumLock'
     ]
 
+    // prevent default for certain keys
     if (
       keysToPrevent.includes(e.key)
       || e.repeat
@@ -60,6 +65,7 @@ export function useKeyboard(particles: ParticlesReturn): KeyboardReturn {
       || e.altKey
     ) {
       e.preventDefault()
+      e.stopPropagation()
     }
   }
 
