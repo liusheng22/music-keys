@@ -2,13 +2,26 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/device'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/seo', '@nuxtjs/device', 'nuxt-gtag'],
+  gtag: {
+    enabled: process.env.NODE_ENV === 'production',
+    id: process.env.NUXT_PUBLIC_GTAG_ID,
+    config: {
+      page_title: 'Music Keys - Interactive Musical Keyboard'
+    }
+  },
   tailwindcss: {
     exposeConfig: true,
     viewer: true
   },
   devServer: {
     host: '0.0.0.0'
+  },
+  seo: {
+    title: 'Music Keys - Interactive Musical Keyboard',
+    description: 'Transform your keyboard into a musical instrument. Play different sounds with dynamic particle effects using A-Z keys.',
+    keywords: 'music keys, music keyboard, musical keyboard, keyboard sound, music, keyboard, interactive, musical, instrument, particle, effects, A-Z, numbers',
+    canonical: 'https://music-keys.vercel.app'
   },
   app: {
     head: {
